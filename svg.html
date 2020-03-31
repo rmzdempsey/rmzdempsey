@@ -1,0 +1,207 @@
+<html>
+    <head>
+        <style>
+            td {
+                border-right: solid 1px black;
+                border-bottom: solid 1px black;
+            }
+            .rectangle-css {
+                background-color: lemonchiffon;
+                border: solid 1px salmon;
+                width: 300;
+                height: 100;
+                margin: 0px;
+            }
+            .rounded-rectangle-css {
+                background-color: lemonchiffon;
+                border: solid 1px salmon;
+                width: 300;
+                height: 100;
+                margin: 0px;
+                border-radius: 25px;
+            }
+            .rectangle-svg {
+                fill: lemonchiffon;
+                stroke: salmon;
+            }
+            .drop-shadow-css {
+                background-color: lemonchiffon;
+                border: solid 1px salmon;
+                width: 100;
+                height: 100;
+                margin: 0px;
+                border-radius: 50px;
+                box-shadow: 5px 5px 5px  #cccccc;
+            }
+
+            .column-header {
+                display: flex;
+                flex-direction: column;
+                border: solid 1px black;
+                
+            }
+
+            .column-header-top {
+                
+                display: flex;
+                flex-direction: row;
+                
+            }
+            
+
+            .column-label {
+                font-weight: normal;
+                font-size: 12px;
+                -webkit-transition: font-size 1s ease;
+                -moz-transition: font-size 1s ease;
+                -ms-transition: font-size 1s ease;
+                -o-transition: font-size 1s ease;
+                transition: font-size 1s ease;
+            }
+
+            .column-header:hover .column-label {
+                font-weight: bold;
+                font-size: 20px;
+            }
+
+            .column-label {
+                font-weight: normal;
+            }
+
+            .column-filter {
+                
+            }
+
+            .column-sort {
+                
+            }
+
+            .ele-show{
+                visibility: visible;
+            }
+
+            .ele-hidden{
+                visibility: hidden;
+            }
+            
+        </style>
+        <script>
+            function drawRect(){
+                let c = document.getElementById("rectangle-cvs");
+                let ctx = c.getContext("2d");
+                ctx.fillStyle = 'lemonchiffon';
+                ctx.strokeStyle = 'salmon';
+                ctx.beginPath();
+                ctx.fillRect(0, 0, 300, 100);
+                ctx.rect(0, 0, 300, 100);
+                ctx.stroke();
+            }
+            function drawRoundedRect(){
+                let c = document.getElementById("rounded-rectangle-cvs");
+                let ctx = c.getContext("2d");
+                ctx.fillStyle = 'lemonchiffon';
+                ctx.strokeStyle = 'salmon';
+                roundedRect(ctx,0,0,300,100,25)
+            }
+            function roundedRect(ctx, x, y, width, height, radius) {
+                ctx.beginPath();
+                ctx.moveTo(x, y + radius);
+                ctx.lineTo(x, y + height - radius);
+                ctx.arcTo(x, y + height, x + radius, y + height, radius);
+                ctx.lineTo(x + width - radius, y + height);
+                ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+                ctx.lineTo(x + width, y + radius);
+                ctx.arcTo(x + width, y, x + width - radius, y, radius);
+                ctx.lineTo(x + radius, y);
+                ctx.arcTo(x, y, x, y + radius, radius);
+                ctx.fill();
+                ctx.stroke();
+            }
+            function loadCanvas(){
+                drawRect()
+                drawRoundedRect()
+            }
+
+            function confirmBtnClick(evt){
+                console.log("confirm1", evt)
+                document.getElementById('btn-lbl').className = 'ele-hidden'
+                document.getElementById('btn-question').className = 'ele-show'
+            }
+        </script>
+    </head>
+    <body onload="loadCanvas()">
+        <table>
+            <thead>
+                <td>&nbsp;sss</td>
+                <td>CSS3</td>
+                <td>SVG</td>
+                <td>Canvas</td>
+            </thead>
+            <tr>
+                <td>Rectangle</td>
+                <td>
+                    <div class="rectangle-css"></div>
+                </td>
+                <td>
+                    <svg width="300" height="100">
+                        <rect width="300" height="100" class="rectangle-svg" />
+                    </svg>
+                </td>   
+                <td>
+                    <canvas id="rectangle-cvs" width="300" height="110"></canvas>
+                </td>
+            </tr>
+            <tr>
+                <td>Rounded Rectangle</td>
+                <td>
+                    <div class="rounded-rectangle-css"></div>
+                </td>
+                <td>
+                    <svg width="300" height="100">
+                        <rect width="300" height="100" rx="25" ry="25" class="rectangle-svg" />
+                    </svg>
+                </td>   
+                <td>
+                    <canvas id="rounded-rectangle-cvs" width="300" height="110"></canvas>
+                </td>
+            </tr>
+            <tr>
+                <td>Drop Shadow</td>
+                <td>
+                    <div class="drop-shadow-css"></div>
+                </td>
+                <td>
+                    <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="shadow">
+                                <feDropShadow dx="5" dy="5" stdDeviation="4" flood-color="rgb(cc,cc,cc)" flood-opacity="0.25"/>
+                            </filter>
+                        </defs>
+                        <circle cx="51" cy="55" r="50" style="filter:url(#shadow);" class="rectangle-svg"/>
+                    </svg>
+                </td>   
+                <td>
+                    <canvas id="rounded-rectangle-cvs" width="300" height="110"></canvas>
+                </td>
+            </tr>
+        </table>
+
+        <div class="column-header">
+            <div class="column-header-top">
+                <span class="column-label">column label</span>
+                <span class="column-sort">column label</span>
+            </div>
+            
+            <div class="column-sort">column sort</div>
+        </div>
+
+
+        <div onclick="confirmBtnClick(this)">
+            <div id="btn-lbl" class="ele-show">delete</div>
+            <div id="btn-question" class="ele-hidden">are you sure?</div>
+            <!-- <div>yes</div>
+            <div>yes</div> -->
+        </div>
+
+    </body>
+</html>
